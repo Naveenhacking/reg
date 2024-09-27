@@ -1,4 +1,4 @@
--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,11 +43,6 @@
             <button id="customAlertOkButton">OK</button>
         </div>
     </div>
-
-    <!-- Audio Elements -->
-    <audio id="registerSuccessSound" src="register-success.mp3"></audio>
-    <audio id="loginSuccessSound" src="login-success.mp3"></audio>
-    <audio id="userDeletedSound" src="user-deleted.mp3"></audio>
 
     <script>
     window.onload = function () {
@@ -96,7 +91,7 @@
         if (localStorage.getItem(username)) {
             localStorage.removeItem(username);
             showCustomAlert(`User '${username}' has been deleted.`);
-            document.getElementById('userDeletedSound').play(); // Play sound
+            playSound("delete"); // Play sound for deletion
         } else {
             showCustomAlert('User does not exist.');
         }
@@ -106,7 +101,7 @@
         const user = JSON.parse(localStorage.getItem(username));
         if (user && user.password === password) {
             showSuccessMessage('Login successful!', true); // Redirect after login
-            document.getElementById('loginSuccessSound').play(); // Play sound
+            playSound("login"); // Play sound for login
         } else {
             showCustomAlert('Invalid username or password.');
         }
@@ -119,8 +114,19 @@
             const user = { username, password };
             localStorage.setItem(username, JSON.stringify(user));
             showSuccessMessage('Registration successful!', false); // No redirect after registration
-            document.getElementById('registerSuccessSound').play(); // Play sound
+            playSound("register"); // Play sound for registration
         }
+    }
+
+    // Function to play sounds
+    function playSound(action) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'sine'; // Waveform type
+        oscillator.frequency.setValueAtTime(action === "register" ? 440 : action === "login" ? 550 : 660, audioContext.currentTime); // Frequency based on action
+        oscillator.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.5); // Play sound for 0.5 seconds
     }
 
     // Custom Alert Function
