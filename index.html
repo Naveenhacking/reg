@@ -91,7 +91,6 @@
         if (localStorage.getItem(username)) {
             localStorage.removeItem(username);
             showCustomAlert(`User '${username}' has been deleted.`);
-            playSound("delete"); // Play sound for deletion
         } else {
             showCustomAlert('User does not exist.');
         }
@@ -101,7 +100,6 @@
         const user = JSON.parse(localStorage.getItem(username));
         if (user && user.password === password) {
             showSuccessMessage('Login successful!', true); // Redirect after login
-            playSound("login"); // Play sound for login
         } else {
             showCustomAlert('Invalid username or password.');
         }
@@ -114,19 +112,7 @@
             const user = { username, password };
             localStorage.setItem(username, JSON.stringify(user));
             showSuccessMessage('Registration successful!', false); // No redirect after registration
-            playSound("register"); // Play sound for registration
         }
-    }
-
-    // Function to play sounds
-    function playSound(action) {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        oscillator.type = 'sine'; // Waveform type
-        oscillator.frequency.setValueAtTime(action === "register" ? 440 : action === "login" ? 550 : 660, audioContext.currentTime); // Frequency based on action
-        oscillator.connect(audioContext.destination);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.5); // Play sound for 0.5 seconds
     }
 
     // Custom Alert Function
@@ -159,6 +145,7 @@
             }, 3000); // 3 seconds delay for registration
         }
     }
+
     </script>
     <style>
     /* Preloader */
@@ -180,7 +167,7 @@
 
     /* Background image slideshow */
     body {
-        background: url('image1.jpg') no-repeat center center/cover;
+        background: url('https://i.pinimg.com/originals/d8/42/30/d84230b86388b80d3989f14b3631ba49.jpg') no-repeat center center/cover;
         height: 100vh;
         margin: 0;
         font-family: 'Arial', sans-serif;
@@ -188,10 +175,10 @@
     }
 
     @keyframes slideshow {
-        0% { background-image: url('image1.jpg'); }
-        33% { background-image: url('image2.jpg'); }
-        66% { background-image: url('image3.jpg'); }
-        100% { background-image: url('image1.jpg'); }
+        0% { background-image: url('https://i.pinimg.com/originals/d8/42/30/d84230b86388b80d3989f14b3631ba49.jpg'); }
+        33% { background-image: url('https://i.pinimg.com/736x/c4/95/e6/c495e6c05ee66562e0f930a4f8c7da4a.jpg'); }
+        66% { background-image: url('https://i.pinimg.com/736x/11/08/f8/1108f803402df926aba9167ab45bf6e1.jpg'); }
+        100% { background-image: url('https://i.pinimg.com/originals/39/e3/75/39e375b4ee2d40b274687081d9c64290.jpg'); }
     }
 
     /* Form container */
@@ -246,8 +233,8 @@
 
     /* Keyframe for button color animation */
     @keyframes changeColor {
-        0% { background-color: #28a745; }
-        50% { background-color: #ffcc00; }
+        10% { background-color: #070ac9; }
+        50% { background-color: #1acc4f; }
         100% { background-color: #ff5733; }
     }
 
@@ -273,7 +260,7 @@
 
     /* Spinner */
     #spinner {
-        border: 5px solid #f3f3f3;
+        border: 5px solid #ad2121;
         border-top: 5px solid #3498db;
         border-radius: 50%;
         width: 50px;
